@@ -1,14 +1,46 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const userRoutes = require('./routes/userRoutes');
+const mongoose = require('mongoose');
 
+//connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('Connected to MongoDB Atlas'))
+    .catch(err => console.error('MongoDB connection error:', err));
+
+//Middleware
 app.use(express.json()); // for parsing JSON
 app.use(express.urlencoded({ extended: true })); // for form data
 
+const session = require('express-session');
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }//set to true if using HTTPS
+    // cookie: {
+    //     secure: false, // Set to true if using HTTPS
+    //     maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    // }
+}));
+
+//Routes
 app.use('/user', userRoutes);
 
+const authRoutes = require('./routes/authRoutes');
+const adminRoutes = require('./routes/adminRoutes');
+app.use('/auth', authRoutes);
+app.use('/admin', adminRoutes);
+
+
+//set EJS as view engine
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
 app.get('/', (req, res) => {
-    res.send('Hello from Node.js + Express!');
+    //  res.send('Hello from Node.js + Express!');
+    res.render('index', { title: 'Book Haven', page: 'Home', user: req.session.user || null });
 });
 
 app.listen(3000, () => {

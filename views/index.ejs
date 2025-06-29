@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="font-sans bg-gray-100 text-gray-800">
+    <header class="bg-gray-800 text-white p-4 text-center">
+        <h1 class="text-2xl font-bold">Book Haven</h1>
+        <p class="text-sm">Your literary paradise since 2023</p>
+    </header>
+
+
+    <nav class="bg-gray-700 p-2">
+        <div class="flex justify-between items-center max-w-6xl mx-auto">
+            <div class="flex space-x-6">
+                <a href="/" class="text-white hover:text-gray-300">Home</a>
+                <a href="/user" class="text-white hover:text-gray-300">User Area</a>
+                <a href="#" class="text-white hover:text-gray-300">Browse</a>
+                <a href="#" class="text-white hover:text-gray-300">About</a>
+            </div>
+
+            <% if (user) { %>
+                <!-- Show logout button if user is logged in -->
+                <div class="flex items-center space-x-4">
+                    <span class="text-white">Welcome, <%= user.username %></span>
+                    <a href="/auth/logout" class="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded">
+                        Logout
+                    </a>
+                </div>
+                <% } else { %>
+                    <!-- Show login button if user is not logged in -->
+                    <a href="/auth/login" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded">
+                        Login
+                        <!-- change this button to match theme -->
+                    </a>
+                    <% } %>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-4 max-w-5xl">
+        <h2 class="text-2xl font-semibold mb-4">Welcome to <%= page %>
+        </h2>
+
+        <% if (page==='Home' ) { %>
+            <section>
+                <h3 class="text-xl font-medium mb-2">Featured Books</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-white rounded-lg p-4 shadow-md">
+                        <h4 class="text-lg font-semibold">The Silent Patient</h4>
+                        <p class="text-gray-600">Alex Michaelides</p>
+                        <p class="text-gray-800 font-medium">$12.99</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow-md">
+                        <h4 class="text-lg font-semibold">Educated</h4>
+                        <p class="text-gray-600">Tara Westover</p>
+                        <p class="text-gray-800 font-medium">$14.99</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow-md">
+                        <h4 class="text-lg font-semibold">Project Hail Mary</h4>
+                        <p class="text-gray-600">Andy Weir</p>
+                        <p class="text-gray-800 font-medium">$15.99</p>
+                    </div>
+                </div>
+            </section>
+            <% } else { %>
+                <section>
+                    <p class="text-gray-700">Welcome to your user dashboard! Here you can view your reading history,
+                        wishlist, and account settings.</p>
+                </section>
+                <% } %>
+    </div>
+
+    <footer class="bg-gray-800 text-white text-center p-4 mt-4 fixed bottom-0 w-full">
+        © 2025 Book Haven. All rights reserved.
+    </footer>
+</body>
+
+</html>

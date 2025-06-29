@@ -1,0 +1,54 @@
+# Environment variables
+.env
+.env.*
+!.env.example  # Keep example files (if needed)
+
+# Dependency directories
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Runtime data
+*.pid
+*.seed
+*.pid.lock
+
+# Directory for instrumented libs
+coverage/
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+
+# Build files
+dist/
+build/
+*.tmp
+*.bak
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Debug files
+*.debug
+
+# Optional (if applicable)
+# Session files
+*.session
+*.session.*
+
+# Database files (if using SQLite, etc.)
+*.db
+*.sqlite
