@@ -4,6 +4,10 @@ const app = express();
 const userRoutes = require('./routes/userRoutes');
 const mongoose = require('mongoose');
 
+// Serve static files from 'public' folder
+app.use(express.static('public'));
+
+
 //connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Connected to MongoDB Atlas'))
@@ -40,7 +44,7 @@ app.set('views', './views');
 
 app.get('/', (req, res) => {
     //  res.send('Hello from Node.js + Express!');
-    res.render('index', { title: 'Book Haven', page: 'Home', user: req.session.user || null });
+    res.render('index', { title: 'GoFit', page: 'Home', user: req.session.user || null });
 });
 
 app.listen(3000, () => {
