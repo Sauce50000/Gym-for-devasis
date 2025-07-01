@@ -1,10 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const userRoutes = require('./routes/userRoutes');
-const mongoose = require('mongoose');
+
+// Serve static files from 'public' folder
+app.use(express.static('public'));
+
 
 //connect to MongoDB
+const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Connected to MongoDB Atlas'))
     .catch(err => console.error('MongoDB connection error:', err));
@@ -26,10 +29,11 @@ app.use(session({
 }));
 
 //Routes
-app.use('/user', userRoutes);
 
+const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+app.use('/user', userRoutes);
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
 
@@ -40,7 +44,7 @@ app.set('views', './views');
 
 app.get('/', (req, res) => {
     //  res.send('Hello from Node.js + Express!');
-    res.render('index', { title: 'Book Haven', page: 'Home', user: req.session.user || null });
+    res.render('index', { title: 'GoFit', page: 'Home', user: req.session.user || null });
 });
 
 app.listen(3000, () => {

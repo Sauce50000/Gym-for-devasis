@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - GoFIT</title>
+
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+
+    <style>
+        .bg-gradient-custom {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        }
+        .error-border {
+            border-color: #ef4444 !important;
+        }
+        .error-text {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        .success-border {
+            border-color: #10b981 !important;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+        <!-- Error message from server -->
+        <% if (error) { %>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <span class="block sm:inline"><%= error %></span>
+            </div>
+        <% } %>
+
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">Register for GoFIT</h2>
+        <p class="text-center text-gray-600 mb-6">Start your fitness journey today!</p>
+
+        <form action="/auth/register" method="POST" id="registerForm" class="space-y-4" novalidate>
+            <!-- Username Field -->
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                <input 
+                    type="text" 
+                    name="username" 
+                    id="username" 
+                    required 
+                    placeholder="Enter your username"
+                    value="<%= username || '' %>"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                    onblur="validateUsername(this)"
+                />
+                <p id="username-error" class="error-text hidden"></p>
+            </div>
+
+            <!-- Email Field -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input 
+                    type="email" 
+                    name="email" 
+                    id="email" 
+                    required 
+                    placeholder="you@example.com"
+                    value="<%= email || '' %>"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                    onblur="validateEmail(this)"
+                />
+                <p id="email-error" class="error-text hidden"></p>
+            </div>
+
+            <!-- Password Field -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input 
+                    type="password" 
+                    name="password" 
+                    id="password" 
+                    required 
+                    placeholder="Enter a secure password"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                    oninput="validatePasswords()"
+                />
+                <p id="password-error" class="error-text hidden"></p>
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div>
+                <label for="password_confirm" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                <input 
+                    type="password" 
+                    name="password_confirm" 
+                    id="password_confirm" 
+                    required 
+                    placeholder="Retype the password"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                    oninput="validatePasswords()"
+                />
+                <p id="password-confirm-error" class="error-text hidden"></p>
+            </div>
+
+            <!-- Submit Button -->
+            <button 
+                type="submit"
+                id="submitButton"
+                class="w-full bg-gradient-custom text-white py-2 rounded-md hover:bg-green-600 transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled
+            >
+                Create Account
+            </button>
+        </form>
+
+        <!-- Login Link -->
+        <p class="text-center text-sm text-gray-600 mt-4">
+            Already have an account?
+            <a href="/auth/login" class="text-green-600 hover:underline">Login here</a>
+        </p>
+    </div>
+
+    <script>
+        // Real-time validation for username
+        async function validateUsername(input) {
+            const username = input.value.trim();
+            const errorElement = document.getElementById('username-error');
+            
+            if (!username) {
+                showError(input, errorElement, 'Username is required');
+                return;
+            }
+
+            try {
+                const response = await fetch('/auth/check-username', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username })
+                });
+                const result = await response.json();
+                
+                if (result.exists) {
+                    showError(input, errorElement, 'This username is already taken');
+                } else {
+                    clearError(input, errorElement);
+                }
+            } catch (err) {
+                showError(input, errorElement, 'Error checking username availability');
+            }
+            updateSubmitButton();
+        }
+
+        // Real-time validation for email
+        async function validateEmail(input) {
+            const email = input.value.trim();
+            const errorElement = document.getElementById('email-error');
+            
+            if (!email) {
+                showError(input, errorElement, 'Email is required');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showError(input, errorElement, 'Please enter a valid email');
+                return;
+            }
+
+            try {
+                const response = await fetch('/auth/check-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const result = await response.json();
+                
+                if (result.exists) {
+                    showError(input, errorElement, 'This email is already registered');
+                } else {
+                    clearError(input, errorElement);
+                }
+            } catch (err) {
+                showError(input, errorElement, 'Error checking email availability');
+            }
+            updateSubmitButton();
+        }
+
+        // Real-time password validation
+        function validatePasswords() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('password_confirm').value;
+            const passwordError = document.getElementById('password-error');
+            const confirmError = document.getElementById('password-confirm-error');
+
+            if (!password) {
+                showError(document.getElementById('password'), passwordError, 'Password is required');
+                clearError(document.getElementById('password_confirm'), confirmError);
+            } else if (password.length < 8) {
+                showError(document.getElementById('password'), passwordError, 'Password must be at least 8 characters');
+                clearError(document.getElementById('password_confirm'), confirmError);
+            } else {
+                clearError(document.getElementById('password'), passwordError);
+            }
+
+            if (confirmPassword && password !== confirmPassword) {
+                showError(document.getElementById('password_confirm'), confirmError, 'Passwords do not match');
+            } else {
+                clearError(document.getElementById('password_confirm'), confirmError);
+            }
+            updateSubmitButton();
+        }
+
+        // Helper functions
+        function showError(input, errorElement, message) {
+            input.classList.add('error-border');
+            input.classList.remove('success-border');
+            errorElement.textContent = message;
+            errorElement.classList.remove('hidden');
+        }
+
+        function clearError(input, errorElement) {
+            input.classList.remove('error-border');
+            input.classList.add('success-border');
+            errorElement.textContent = '';
+            errorElement.classList.add('hidden');
+        }
+
+        // Enable/disable submit button based on form validity
+        function updateSubmitButton() {
+            const usernameError = document.getElementById('username-error').textContent;
+            const emailError = document.getElementById('email-error').textContent;
+            const passwordError = document.getElementById('password-error').textContent;
+            const confirmError = document.getElementById('password-confirm-error').textContent;
+            const submitButton = document.getElementById('submitButton');
+
+            submitButton.disabled = usernameError || emailError || passwordError || confirmError;
+        }
+    </script>
+</body>
+</html>
