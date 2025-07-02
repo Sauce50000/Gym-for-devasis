@@ -2,7 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
 exports.getLogin = (req, res) => {
-    res.render('auth/login', { error: null }); // Added error parameter title: 'Login' ,
+    res.render('auth/login', { error: null, username: '' }); // Added error parameter title: 'Login' ,
 };
 
 exports.getRegister = (req, res) => {
@@ -120,11 +120,17 @@ exports.postLogin = async (req, res) => {
 
     try {
         // 1. Find user
-        const user = await User.findOne({ username });
+        //const user = await User.findOne({ username });
+        
+        const user = await User.findOne({
+            $or: [{username},{email: username}]
+        });
+        
         if (!user) {
             return res.render('auth/login', {
                 error: 'Invalid credentials',
-                username // Preserve username on failed attempt
+                username// Preserve username on failed attempt
+                
             });
         }
 
@@ -134,6 +140,7 @@ exports.postLogin = async (req, res) => {
             return res.render('auth/login', {
                 error: 'Invalid credentials',
                 username
+                
             });
         }
 
@@ -145,8 +152,9 @@ exports.postLogin = async (req, res) => {
         };
 
         // 4. Redirect based on role
-        const redirectPath = user.role === 'admin' ? '/admin/dashboard' : '/user';
-        res.redirect(redirectPath);
+        // const redirectPath = user.role === 'admin' ? '/admin/dashboard' : '/user';
+        // res.redirect(redirectPath);
+        res.redirect('/');
 
     } catch (err) {
         console.error('Login error:', err);
