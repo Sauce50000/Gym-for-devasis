@@ -9,8 +9,9 @@ router.post('/register', authController.postRegister);
 
 // router.get('/register', authController.getRegister);
 
-router.post('/login', authController.postLogin);
 router.get('/login', authController.getLogin);
+router.post('/login', authController.postLogin);
+
 router.post('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/');

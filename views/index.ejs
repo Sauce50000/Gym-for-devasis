@@ -11,6 +11,14 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans&display=swap"
         rel="stylesheet">
+
+    <style>
+        .custom-blur {
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(209, 213, 219, 0.1); /* Semi-transparent gray border */
+            /* Adjust the blur radius as needed */
+        }
+    </style>
 </head>
 
 <body class="font-sans text-gray-800 ">
@@ -59,15 +67,16 @@
                                 </svg>
                             </button>
 
-                            <div x-show="open" @click="open = false" class="fixed inset-0 bg-black bg-opacity-50 z-40">
+                            <div x-show="open" @click="open = false" class="fixed inset-0 bg-black bg-opacity-30 z-40 ">
                             </div>
 
-                            <div x-show="open" @click.away="open = false"
+                            <div x-show="open" x-cloak @click.away="open = false"
                                 x-transition:enter="transition ease-out duration-300 transform"
                                 x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
                                 x-transition:leave="transition ease-in duration-200 transform"
                                 x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"
-                                class="fixed top-0 right-0 h-full w-64 shadow-lg z-50 bg-gray-900 lg:w-1/8">
+                                class="fixed top-0 right-0 h-full w-64 z-50 p-4 shadow-lg rounded-l-lg bg-white/40 lg:w-1/8 custom-blur
+                                ">
                                 <div class="flex justify-between items-center m-0 mb-6 bg-red-900 p-4 opacity-100">
                                     <h3 class="text-3xl font-semibold text-white">Account Menu</h3>
                                     <button @click="open = false" class="text-gray-500 hover:text-gray-700">
@@ -79,7 +88,7 @@
                                     </button>
                                 </div>
 
-                                <nav class="space-y-2 ">
+                                <nav class="space-y-2">
                                     <!-- Dashboard Link -->
                                     <a href="/admin/dashboard"
                                         class="hover:underline block w-full px-4 py-3 text-lg font-medium text-white rounded-lg hover:bg-fuchsia-100 hover:text-fuchsia-800 transition-all duration-200">
@@ -135,8 +144,7 @@
             </section>
             <% } else { %>
                 <section>
-                    <p class="text-gray-700">Welcome to your user dashboard! Here you can view your reading history,
-                        wishlist, and account settings.</p>
+                    <p class="text-gray-700">Welcome to your user SECTION! Here you can view your Stuffs</p>
                 </section>
                 <% } %>
     </div>
