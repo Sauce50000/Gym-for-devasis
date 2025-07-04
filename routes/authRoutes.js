@@ -3,6 +3,12 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 const User = require('../models/User');
 
+// router.use((req, res, next) => {
+//     res.locals.layout = false;
+//     console.log('Setting layout to false for:', req.originalUrl);
+//     next();
+// });
+
 // Registration routes
 router.get('/register', authController.getRegister);
 router.post('/register', authController.postRegister);
