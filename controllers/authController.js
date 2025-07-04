@@ -1,12 +1,13 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 
+
 exports.getLogin = (req, res) => {
-    res.render('auth/login', { error: null, username: '' }); // Added error parameter title: 'Login' ,
+    res.render('auth/login', { error: null, username: ''}); // Added error parameter title: 'Login' ,
 };
 
 exports.getRegister = (req, res) => {
-    res.render('auth/register', { error: null, username: '', email: '' });
+    res.render('auth/register', { error: null, username: '', email: ''});
     // res.render('auth/register', {
     // error: 'Some error',
     // formData: req.body

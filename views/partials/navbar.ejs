@@ -1,0 +1,154 @@
+<!-- views/partials/navbar.ejs -->
+
+
+<nav id="navbar" class="fixed top-0 left-0 bg-black bg-opacity-80 z-50 w-full h-24">
+    <div class="flex justify-between items-center w-full h-full px-4">
+        <!-- Left: Logo/Title -->
+        <a href="/" class="flex items-center space-x-2">
+            <img style="filter: invert(1);" src="/images/logo.png" alt="GoFIT Logo" class="h-20">
+
+            <div class="text-white text-3xl font-bold">
+                GoFIT
+            </div>
+        </a>
+        <!-- Center: Nav Links -->
+        <div class="flex space-x-4">
+            <a href="/"
+                class="text-xl text-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition font-semibold">Home</a>
+            <a href="/user"
+                class="text-xl text-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition font-semibold">User
+                Area</a>
+            <a href="#"
+                class="text-xl text-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition font-semibold">Browse</a>
+            <a href="#"
+                class="text-xl text-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition font-semibold">About</a>
+        </div>
+
+
+        <div class="flex items-center space-x-4">
+            <% if (user) { %>
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="open = !open"
+                        class="text-white hover:text-gray-300 focus:outline-none flex items-center">
+                        <span>Welcome, <%= user.username %></span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1 transition-transform"
+                            :class="{ 'rotate-180': open }" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+
+                    <div x-show="open" @click="open = false" class="fixed inset-0 bg-black bg-opacity-30 z-40 ">
+                    </div>
+
+                    <div x-show="open" x-cloak @click.away="open = false"
+                        x-transition:enter="transition ease-out duration-300 transform"
+                        x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
+                        x-transition:leave="transition ease-in duration-200 transform"
+                        x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full" class="fixed top-0 right-0 h-full w-64 z-50 p-4 shadow-lg rounded-l-lg bg-white/40 lg:w-1/8 custom-blur
+                                ">
+                        <div class="flex justify-between items-center m-0 mb-6 bg-red-900 p-4 opacity-100">
+                            <h3 class="text-3xl font-semibold text-white">Account Menu</h3>
+                            <button @click="open = false" class="text-gray-500 hover:text-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <nav class="space-y-2">
+                            <!-- Dashboard Link -->
+                            <a href="/admin/dashboard"
+                                class="hover:underline block w-full px-4 py-3 text-lg font-medium text-white rounded-lg hover:bg-fuchsia-100 hover:text-fuchsia-800 transition-all duration-200">
+                                Dashboard
+                            </a>
+
+                            <!-- Logout Form -->
+                            <form action="/auth/logout" method="POST" class="w-full">
+                                <button type="submit"
+                                    class="block w-full text-left px-4 py-3 text-lg font-medium text-white rounded-lg hover:bg-red-100 hover:text-red-700 transition-all duration-200">
+                                    Logout
+                                </button>
+                            </form>
+                        </nav>
+                    </div>
+                </div>
+                <% } else { %>
+                    <a href="/auth/login"
+                        class="text-xl bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition">
+                        Login
+                    </a>
+                    <% } %>
+        </div>
+    </div>
+</nav>
+
+<!-- <style>
+    /* Navbar Styles */
+    .nav-link {
+        @apply text-xl text-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition font-semibold;
+    }
+
+    .auth-btn {
+        @apply text-xl text-white px-4 py-2 rounded-full transition font-medium;
+    }
+
+    .login-btn {
+        @apply bg-blue-500 hover:bg-blue-600;
+    }
+
+    .register-btn {
+        @apply bg-green-500 hover:bg-green-600 ml-2;
+    }
+
+    /* Dropdown Styles */
+    .user-dropdown-toggle {
+        @apply text-white hover:text-gray-300 focus:outline-none flex items-center;
+    }
+
+    .dropdown-chevron {
+        @apply h-5 w-5 ml-1 transition-transform;
+    }
+
+    .dropdown-overlay {
+        @apply fixed inset-0 bg-black bg-opacity-30 z-40;
+    }
+
+    .dropdown-menu {
+        @apply fixed top-0 right-0 h-full w-64 z-50 p-4 shadow-lg rounded-l-lg bg-white/40 backdrop-blur-lg;
+    }
+
+    .dropdown-header {
+        @apply flex justify-between items-center mb-6 bg-red-900 p-4;
+    }
+
+    .dropdown-title {
+        @apply text-3xl font-semibold text-white;
+    }
+
+    .dropdown-close-btn {
+        @apply text-white hover:text-gray-200;
+    }
+
+    .dropdown-nav {
+        @apply space-y-2;
+    }
+
+    .dropdown-item {
+        @apply block w-full px-4 py-3 text-lg font-medium text-white rounded-lg hover:bg-opacity-20 hover:bg-white transition-all;
+    }
+
+    .logout-item {
+        @apply hover:bg-red-100 hover:text-red-700;
+    }
+</style> -->
+
+<script>
+    // Mobile menu toggle would go here
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('Navbar loaded');
+    });
+</script>
