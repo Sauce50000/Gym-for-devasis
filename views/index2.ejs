@@ -1,32 +1,38 @@
 <!-- views/index2.ejs -->
 
-<section
-        class="relative flex flex-col items-center justify-center h-screen bg-gray-900 bg-cover bg-no-repeat bg-center"
-        style="background-image: url('/images/image.png'); z-index: 0;">
-        <!-- Overlay -->
-        <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
-        <!-- Content -->
-        <div class="relative z-10 flex flex-col justify-center items-center text-center w-full px-4 pt-24">
-            <h1 class="text-6xl font-bold text-white mb-6 font-extrabold font-serif">Welcome to GoFIT GYM</h1>
-            <p class="text-3xl text-white font-light font-sans ">In this world of 7 billion people we need to make them
-                to follow Fit and
-                Healthy Lifestyle</p>
-        </div>
-    </section>
+<section class="relative flex flex-col items-center justify-center h-screen bg-gray-900 bg-cover bg-no-repeat bg-center"
+  style="background-image: url('/images/image.png'); z-index: 0;">
+  <!-- Overlay -->
+  <div class="absolute inset-0 bg-black opacity-50 z-0"></div>
+  <!-- Content -->
+  <div class="relative z-10 flex flex-col justify-center items-center text-center w-full px-4 pt-24">
+    <h1 class="text-6xl font-bold text-white mb-6 font-extrabold font-serif">Welcome to GoFIT GYM</h1>
+    <p class="text-3xl text-white font-light font-sans ">In this world of 7 billion people we need to make them
+      to follow Fit and Healthy Lifestyle</p>
+  </div>
+</section>
 
 <div class="container mx-auto p-4 max-w-6xl">
-  <% if (page === 'Home') { %>
-    <section class="font-sans">
+  <% if (page==='Home' ) { %>
+    <section class="font-sans mx-12">
       <h2 class="font-bold text-4xl text-center mb-4 font-[Montserrat]">Lets Build Together</h2>
       <p class="text-gray-700 text-xl font-[Open+Sans] leading-relaxed">
-        <!-- description -->
+        We are committed to helping individuals of all fitness levels achieve their
+        health and wellness goals in a supportive, motivating environment. Our gym offers a wide range of
+        modern equipment, from strength-training machines and free weights to the latest in cardio
+        technology. Whether you're training for a competition, working toward a healthier lifestyle, or just
+        getting started on your fitness journey, our certified trainers are here to guide and inspire you
+        every step of the way. We also provide group fitness classes such as yoga, HIIT, and dance-based
+        workouts to keep your routine fresh and exciting. With flexible membership plans, clean and spacious
+        workout areas, and a welcoming community, GoFIT is more than just a place to exercise — it's a
+        place to transform your body, build your confidence, and take control of your health.
       </p>
     </section>
-  <% } else { %>
-    <section>
-      <p class="text-gray-700">Welcome to your user SECTION! Here you can view your Stuffs</p>
-    </section>
-  <% } %>
+    <% } else { %>
+      <section>
+        <p class="text-gray-700">Welcome to your user SECTION! Here you can view your Stuffs</p>
+      </section>
+      <% } %>
 </div>
 
 <img src="/images/pic.jpg" alt="Gym equipment" class="w-full" />
