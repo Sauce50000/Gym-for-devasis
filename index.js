@@ -10,6 +10,7 @@ app.use(expressLayouts);
 app.set('layout',false);
 
 
+
 // Serve static files from 'public' folder
 app.use(express.static('public'));
 
