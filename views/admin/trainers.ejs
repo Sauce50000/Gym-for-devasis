@@ -1,9 +1,10 @@
 <% // layout('layouts/dashboard') %>
 
-  <h1 class="text-3xl font-bold mb-4">Manage Users</h1>
-  <!-- <p>Here you can add, edit, or remove users.</p> -->
+  <h1 class="text-3xl font-bold mb-4">Manage Trainers</h1>
+  
+  <h1 class="text-2xl mb-4">All Trainers</h1>
 
-  <h1 class="text-2xl mb-4">All Users</h1>
+    <!-- view option, table or card -->
 
   <table
     class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800 shadow-md rounded-lg">
@@ -18,7 +19,7 @@
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-      <% users.forEach(u=> { %>
+      <% trainers.forEach(u=> { %>
         <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
             <%= u.username %>
@@ -33,3 +34,5 @@
         <% }) %>
     </tbody>
   </table>
+
+  <!-- card view -->
