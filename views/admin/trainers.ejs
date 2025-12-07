@@ -1,38 +1,157 @@
 <% // layout('layouts/dashboard') %>
 
   <h1 class="text-3xl font-bold mb-4">Manage Trainers</h1>
-  
-  <h1 class="text-2xl mb-4">All Trainers</h1>
 
-    <!-- view option, table or card -->
+  <!-- Add Trainer Button and View Toggle -->
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl">All Trainers</h2>
+    <div class="flex space-x-4">
+      <div x-data="{ open: false }" x-cloak>
+        <button @click="open = true" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+          Add Trainer
+        </button>
+        <div x-show="open"
+          class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-lg w-full max-w-md shadow-lg relative">
+            <button @click="open = false"
+              class="absolute top-2 right-2 text-black hover:text-red-600 text-2xl leading-none">
+              ×
+            </button>
 
-  <table
-    class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800 shadow-md rounded-lg">
-    <thead class="bg-gray-50 dark:bg-gray-900">
-      <tr>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-          Username</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-          Email</th>
-        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-          Role</th>
-      </tr>
-    </thead>
-    <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-      <% trainers.forEach(u=> { %>
-        <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
-            <%= u.username %>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-            <%= u.email %>
-          </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-            <%= u.role %>
-          </td>
+            <h3 class="text-xl font-bold mb-4 text-black">Add Trainer</h3>
+
+            <form action="/auth/registerTrainer" method="POST" class="space-y-4">
+              <div>
+                <label class="block text-sm text-black">Username</label>
+                <input type="text" name="username" required
+                  class="w-full px-3 py-2 border rounded-md text-black dark:bg-gray-700 dark:border-gray-600">
+              </div>
+              <div>
+                <label class="block text-sm text-black">Email</label>
+                <input type="email" name="email" required
+                  class="w-full px-3 py-2 border rounded-md text-black dark:bg-gray-700 dark:border-gray-600">
+              </div>
+              <div>
+                <label class="block text-sm text-black">Password</label>
+                <input type="password" name="password" required
+                  class="w-full px-3 py-2 border rounded-md text-black dark:bg-gray-700 dark:border-gray-600">
+              </div>
+              <div>
+                <label class="block text-sm text-black">Confirm Password</label>
+                <input type="password" name="password_confirm" required
+                  class="w-full px-3 py-2 border rounded-md text-black dark:bg-gray-700 dark:border-gray-600">
+              </div>
+              <!-- Add trainer-specific fields if needed, e.g., certification 
+              <div>
+                <label class="block text-sm text-black">Certification (Optional)</label>
+                <input type="text" name="certification"
+                  class="w-full px-3 py-2 border rounded-md dark:bg-gray-700 dark:border-gray-600">
+              </div>
+              -->
+              <button type="submit"
+                class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition w-full">
+                Create Trainer
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">Add Trainer</a> -->
+      <div class="flex space-x-2">
+        <button id="table-view-btn"
+          class="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-4 py-2 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition">Table
+          View</button>
+        <button id="card-view-btn"
+          class="bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-4 py-2 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition">Card
+          View</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="table-view" class="view">
+    <table
+      class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800 shadow-md rounded-lg">
+      <thead class="bg-gray-50 dark:bg-gray-900">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+            Username</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+            Email</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+            Role</th>
         </tr>
-        <% }) %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+        <% trainers.forEach(u=> { %>
+          <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">
+              <%= u.username %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+              <%= u.email %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+              <%= u.role %>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+  </div>
 
-  <!-- card view -->
+
+  <div id="card-view" class="view hidden">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% trainers.forEach(u=> { %>
+        <div class="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 hover:shadow-lg transition">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <%= u.username %>
+          </h3>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1"><strong>Email:</strong>
+            <%= u.email %>
+          </p>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1"><strong>Role:</strong>
+            <%= u.role %>
+          </p>
+        </div>
+        <% }) %>
+    </div>
+  </div>
+
+
+  <script>
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        const modal = document.querySelector('[x-show="open"]');
+        if (modal) {
+          modal.__x.$data.open = false;
+        }
+      }
+    });
+
+    const tableView = document.getElementById('table-view');
+    const cardView = document.getElementById('card-view');
+    const tableViewBtn = document.getElementById('table-view-btn');
+    const cardViewBtn = document.getElementById('card-view-btn');
+
+    tableViewBtn.addEventListener('click', () => {
+      tableView.classList.remove('hidden');
+      cardView.classList.add('hidden');
+      tableViewBtn.classList.add('bg-blue-600', 'text-white');
+      tableViewBtn.classList.remove('bg-gray-200', 'text-gray-900', 'dark:bg-gray-700', 'dark:text-gray-100');
+      cardViewBtn.classList.remove('bg-blue-600', 'text-white');
+      cardViewBtn.classList.add('bg-gray-200', 'text-gray-900', 'dark:bg-gray-700', 'dark:text-gray-100');
+    });
+
+    cardViewBtn.addEventListener('click', () => {
+      cardView.classList.remove('hidden');
+      tableView.classList.add('hidden');
+      cardViewBtn.classList.add('bg-blue-600', 'text-white');
+      cardViewBtn.classList.remove('bg-gray-200', 'text-gray-900', 'dark:bg-gray-700', 'dark:text-gray-100');
+      tableViewBtn.classList.remove('bg-blue-600', 'text-white');
+      tableViewBtn.classList.add('bg-gray-200', 'text-gray-900', 'dark:bg-gray-700', 'dark:text-gray-100');
+    });
+  </script>

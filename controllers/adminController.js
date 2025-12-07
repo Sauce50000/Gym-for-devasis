@@ -25,7 +25,7 @@ exports.getUsers = async (req, res) => {
     }
 
     try {
-        const users = await User.find();
+        const users = await User.find({ role: 'user' });
         // Fetch all users from MongoDB
         res.render('admin/users', {
             title: 'Users',

@@ -14,9 +14,9 @@
 
 <div class="container mx-auto p-4 max-w-6xl">
   <% if (page==='Home' ) { %>
-    <section class="font-sans mx-12">
+    <!-- <section class="font-sans mx-12">
       <h2 class="font-bold text-4xl text-center mb-4 font-[Montserrat]">Lets Build Together</h2>
-      <p class="text-gray-700 text-xl font-[Open+Sans] leading-relaxed">
+         <p class="text-gray-700 text-xl font-[Open+Sans] leading-relaxed">
         We are committed to helping individuals of all fitness levels achieve their
         health and wellness goals in a supportive, motivating environment. Our gym offers a wide range of
         modern equipment, from strength-training machines and free weights to the latest in cardio
@@ -26,8 +26,25 @@
         workouts to keep your routine fresh and exciting. With flexible membership plans, clean and spacious
         workout areas, and a welcoming community, GoFIT is more than just a place to exercise — it's a
         place to transform your body, build your confidence, and take control of your health.
+      </p> 
+        </section> -->
+    <section class="font-sans mx-12 py-24">
+      <h2 class="font-bold text-6xl text-center mb-12 font-[Montserrat]">
+        Let's Build Together
+      </h2>
+
+      <p class="text-2xl leading-relaxed max-w-5xl mx-auto mb-10">
+        Fitness should feel rewarding—not overwhelming. Our team is here to guide you, push you, and help you build
+        real, lasting progress. Whether you're chasing strength, confidence, or a better routine, we make the journey
+        enjoyable and effective.
+      </p>
+
+      <p class="text-2xl leading-relaxed max-w-5xl mx-auto">
+        Join us, stay consistent, and turn your goals into a lifestyle. Together, we’ll build strength, discipline,
+        and a healthier you.
       </p>
     </section>
+
     <% } else { %>
       <section>
         <p class="text-gray-700">Welcome to your user SECTION! Here you can view your Stuffs</p>
@@ -36,3 +53,47 @@
 </div>
 
 <img src="/images/pic.jpg" alt="Gym equipment" class="w-full" />
+
+<section class="font-sans mx-12 py-16 space-y-20">
+
+  <!-- Personal Trainers -->
+  <div class="flex flex-col md:flex-row items-center gap-10">
+    <div class="w-full md:w-1/2 h-64 overflow-hidden rounded-xl shadow-lg">
+      <img src="/images/pic.jpg" alt="Gym equipment" class="w-full h-full object-cover" />
+    </div>
+    <div class="md:w-1/2">
+      <h3 class="text-3xl font-bold mb-4">Personal Trainers</h3>
+      <p class="text-lg leading-relaxed">
+        You'll get expert guidance, customized workout plans, and consistent support
+        from professionals who care about your progress.
+      </p>
+    </div>
+  </div>
+
+  <!-- Group Sessions -->
+  <div class="flex flex-col-reverse md:flex-row items-center gap-10">
+    <div class="md:w-1/2">
+      <h3 class="text-3xl font-bold mb-4">Group Sessions</h3>
+      <p class="text-lg leading-relaxed">
+        Stay motivated and enjoy high-energy group workouts designed to keep fitness fun and engaging.
+      </p>
+    </div>
+    <div class="w-full md:w-1/2 h-64 overflow-hidden rounded-xl shadow-lg">
+      <img src="/images/picg.jpg" alt="Group training" class="w-full h-full object-cover" />
+    </div>
+  </div>
+
+  <!-- Additional Feature -->
+  <div class="flex flex-col md:flex-row items-center gap-10">
+    <div class="w-full md:w-1/2 h-64 overflow-hidden rounded-xl shadow-lg">
+      <img src="/images/pic3.jpg" alt="Gym feature" class="w-full h-full object-cover" />
+    </div>
+    <div class="md:w-1/2">
+      <h3 class="text-3xl font-bold mb-4">Stay healthy outside of the gym</h3>
+      <p class="text-lg leading-relaxed">
+        Download our guide to navigating the grocery store like a pro. Discover the top tips and tricks for smarter
+        shopping, healthier choices, and stress-free food runs. </p>
+    </div>
+  </div>
+
+</section>

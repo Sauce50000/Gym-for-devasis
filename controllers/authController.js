@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 
 exports.getLogin = (req, res) => {
-    res.render('auth/login', { error: null, username: ''}); // Added error parameter title: 'Login' ,
+    res.render('auth/login', { error: null, username: ''}); 
 };
 
 exports.getRegister = (req, res) => {
@@ -16,8 +16,8 @@ exports.getRegister = (req, res) => {
 
 exports.postRegister = async (req, res) => {
     const { email, username, password, password_confirm } = req.body;
+    const role = req.role || 'user';
 
-    // Simple validation
     if (password !== password_confirm) {
         return res.render('auth/register', {
             error: 'Passwords do not match',
@@ -44,12 +44,10 @@ exports.postRegister = async (req, res) => {
             email: email,
             username: username,
             password: hashedPassword,
-            role: 'user'
+            role
         });
 
-        res.redirect('/auth/login'); // Redirect to login page also tried '/login' only didnt work
-
-
+        res.redirect('/auth/login'); 
     } catch (err) {
         console.error('Registration error:', err);
         res.render('auth/register', {
@@ -59,62 +57,6 @@ exports.postRegister = async (req, res) => {
         });
     }
 };
-
-// exports.postRegister = async (req, res) => { // exports.postRegister = async (req, res) => {
-//     const { email, username, password, password_confirm } = req.body; //     const { email, username, password, password_confirm } = req.body;
-
-//     // Validation
-//     if (password !== password_confirm) {
-//         return res.render('auth/register', {
-//             error: 'Passwords do not match',
-//             email,
-//             username
-//         });
-//     }
-
-//     try {
-//         // Check for existing user
-//         const userExists = await User.findOne({ $or: [{ username }, { email }] });
-//         if (userExists) {
-//             return res.render('auth/register', {
-//                 error: 'Username or email already exists',
-//                 email,
-//                 username
-//             });
-//         }
-
-//         // Hash password
-//         const salt = await bcrypt.genSalt(10);
-//         const hashedPassword = await bcrypt.hash(password, salt);
-
-//         // Create user
-//         const newUser = await User.create({
-//             email,
-//             username,
-//             password: hashedPassword,
-//             role: 'user'
-//         });
-
-//         console.log('New user created:', newUser); // Debug log
-
-//         // Set session and redirect
-//         req.session.user = {
-//             id: newUser._id,
-//             username: newUser.username,
-//             role: newUser.role
-//         };
-
-//         res.redirect('/'); // Redirect to home after registration
-
-//     } catch (err) {
-//         console.error('Registration error:', err);
-//         res.render('auth/register', {
-//             error: 'Registration failed. Please try again.',
-//             email,
-//             username
-//         });
-//     }
-// };
 
 exports.postLogin = async (req, res) => {
     const { username, password } = req.body;

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 const User = require('../models/User');
+const setRole = require('../middlewares/setRole');
 
 // router.use((req, res, next) => {
 //     res.locals.layout = false;
@@ -11,7 +12,8 @@ const User = require('../models/User');
 
 // Registration routes
 router.get('/register', authController.getRegister);
-router.post('/register', authController.postRegister);
+router.post('/registerUser', authController.postRegister); //role = 'user'
+router.post('/registerTrainer', setRole('trainer'), authController.postRegister); //role = 'trainer'
 
 // router.get('/register', authController.getRegister);
 
@@ -22,7 +24,9 @@ router.post('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/');
 });
-// Check if username exists
+
+
+//adjust later 🥲
 router.post('/check-username', async (req, res) => {
     try {
         const { username } = req.body;
@@ -34,7 +38,6 @@ router.post('/check-username', async (req, res) => {
     }
 });
 
-// Check if email exists
 router.post('/check-email', async (req, res) => {
     try {
         const { email } = req.body;
